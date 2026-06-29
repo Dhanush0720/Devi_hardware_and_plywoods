@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 }
 
 async function listOrders(req, res) {
-  const { status, limit = 50, analytics, range = '7d' } = req.query;
+  const { status, limit = 50, analytics, range = '7d', search } = req.query;
 
   if (analytics === 'true') {
     let startDate = new Date();

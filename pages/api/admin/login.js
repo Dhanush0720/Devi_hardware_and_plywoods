@@ -1,3 +1,6 @@
+import connectDB from '../../../lib/db';
+import Admin from '../../../lib/models/Admin';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -6,11 +9,11 @@ export default async function handler(req, res) {
 
   const { email, password } = req.body || {};
 
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'change_this_password';
-  const sessionSecret = process.env.ADMIN_SESSION_SECRET || 'change_this_to_a_long_random_string';
+  await connectDB();
 
-  if (email === adminEmail && password === adminPassword) {
+  const admin = await Admin.findOne({ email, password });
+  if (admin) {
+    const sessionSecret = process.env.ADMIN_SESSION_SECRET || 'change_this_to_a_long_random_string';
     const secureFlag = process.env.NODE_ENV === 'production' ? '; Secure' : '';
     res.setHeader(
       'Set-Cookie',

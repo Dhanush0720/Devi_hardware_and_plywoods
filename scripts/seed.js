@@ -12,8 +12,10 @@ async function main() {
 
   const ProductSchema = new mongoose.Schema({}, { strict: false });
   const InventorySchema = new mongoose.Schema({}, { strict: false });
+  const AdminSchema = new mongoose.Schema({}, { strict: false });
   const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema, 'products');
   const Inventory = mongoose.models.Inventory || mongoose.model('Inventory', InventorySchema, 'inventories');
+  const Admin = mongoose.models.Admin || mongoose.model('Admin', AdminSchema, 'admins');
 
   const samples = [
     { sku: 'PW-CH-001', name: 'Adirondack Polywood Chair', category: 'Outdoor', price: 8499, qty: 12 },
@@ -44,6 +46,22 @@ async function main() {
     } else {
       console.log(`Skipped (exists): ${s.name}`);
     }
+  }
+
+  // Seed Admin Account
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+  const adminPassword = process.env.ADMIN_PASSWORD || '123456789';
+  let admin = await Admin.findOne({ email: adminEmail });
+  if (!admin) {
+    await Admin.create({
+      email: adminEmail,
+      password: adminPassword
+    });
+    console.log(`Created Admin account: ${adminEmail}`);
+  } else {
+    admin.password = adminPassword;
+    await admin.save();
+    console.log(`Updated Admin password: ${adminEmail}`);
   }
 
   await mongoose.disconnect();
