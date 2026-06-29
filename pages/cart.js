@@ -42,42 +42,47 @@ export default function CartPage() {
               {items.map((item) => (
                 <div
                   key={item.productId}
-                  className="flex items-center gap-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
+                  className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
                 >
-                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shrink-0">
-                    {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shrink-0">
+                      {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900 dark:text-gray-50 text-sm sm:text-base">{item.name}</p>
+                      <p className="text-sm text-gray-400">₹{item.price.toLocaleString('en-IN')}</p>
+                      {stockMap[item.productId] !== undefined && stockMap[item.productId] <= 5 && (
+                        <p className="text-[10px] font-semibold text-rose-600 mt-0.5">
+                          {stockMap[item.productId] === 0 ? 'Out of stock' : `Only ${stockMap[item.productId]} units left`}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-gray-50">{item.name}</p>
-                    <p className="text-sm text-gray-400">₹{item.price.toLocaleString('en-IN')}</p>
-                    {stockMap[item.productId] !== undefined && stockMap[item.productId] <= 5 && (
-                      <p className="text-[10px] font-semibold text-rose-600 mt-0.5">
-                        {stockMap[item.productId] === 0 ? 'Out of stock' : `Only ${stockMap[item.productId]} units left`}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center border border-gray-200 dark:border-gray-800 rounded-lg">
-                    <button
-                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                      className="px-2.5 py-1.5"
-                    >
-                      −
+
+                  <div className="flex items-center justify-between sm:justify-end gap-4 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 dark:border-gray-800/60">
+                    <div className="flex items-center border border-gray-200 dark:border-gray-800 rounded-lg">
+                      <button
+                        onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                        className="px-2.5 py-1"
+                      >
+                        −
+                      </button>
+                      <span className="px-3 text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                        disabled={stockMap[item.productId] !== undefined && item.quantity >= stockMap[item.productId]}
+                        className="px-2.5 py-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p className="font-medium w-20 text-right text-gray-900 dark:text-gray-50 text-sm sm:text-base">
+                      ₹{(item.price * item.quantity).toLocaleString('en-IN')}
+                    </p>
+                    <button onClick={() => removeItem(item.productId)} className="text-gray-400 hover:text-rose-600 p-1">
+                      <Trash2 size={18} />
                     </button>
-                    <span className="px-3">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                      disabled={stockMap[item.productId] !== undefined && item.quantity >= stockMap[item.productId]}
-                      className="px-2.5 py-1.5 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      +
-                    </button>
                   </div>
-                  <p className="font-medium w-20 text-right text-gray-900 dark:text-gray-50">
-                    ₹{(item.price * item.quantity).toLocaleString('en-IN')}
-                  </p>
-                  <button onClick={() => removeItem(item.productId)} className="text-gray-400 hover:text-rose-600">
-                    <Trash2 size={18} />
-                  </button>
                 </div>
               ))}
             </div>

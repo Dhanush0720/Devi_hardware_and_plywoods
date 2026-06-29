@@ -123,7 +123,7 @@ export default function AdminProducts() {
         </button>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-x-auto">
         {loading ? (
           <p className="p-6 text-gray-400">Loading...</p>
         ) : (

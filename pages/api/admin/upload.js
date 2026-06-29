@@ -1,6 +1,7 @@
 import formidable from 'formidable';
-import fs from 'fs';
 import path from 'path';
+import os from 'os';
+import { uploadFile } from '../../../lib/services/storageService';
 
 export const config = {
   api: {
@@ -14,13 +15,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: `Method ${req.method} not allowed` });
   }
 
-  const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
   const form = formidable({
-    uploadDir,
+    uploadDir: os.tmpdir(),
     keepExtensions: true,
     maxFileSize: 5 * 1024 * 1024,
   });
@@ -39,11 +35,20 @@ export default async function handler(req, res) {
         return resolve();
       }
 
-      const filename = path.basename(file.filepath || file.path);
-      const fileUrl = `/uploads/${filename}`;
+      const tempPath = file.filepath || file.path;
+      const originalFilename = file.originalFilename || path.basename(tempPath);
 
-      res.status(200).json({ url: fileUrl });
-      return resolve();
+      uploadFile(tempPath, originalFilename, 'products')
+        .then((fileUrl) => {
+          res.status(200).json({ url: fileUrl });
+          resolve();
+        })
+        .catch((uploadErr) => {
+          console.error('[upload] Error uploading via storageService:', uploadErr);
+          res.status(500).json({ error: uploadErr.message || 'Error uploading file' });
+          resolve();
+        });
     });
   });
 }
+

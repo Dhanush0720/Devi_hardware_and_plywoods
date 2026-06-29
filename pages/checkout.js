@@ -95,7 +95,7 @@ export default function Checkout() {
           <Field label="Email (optional)" value={form.email} onChange={set('email')} type="email" />
           <Field label="Address line 1" value={form.line1} onChange={set('line1')} required />
           <Field label="Address line 2" value={form.line2} onChange={set('line2')} />
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Field label="City" value={form.city} onChange={set('city')} required />
             <Field label="State" value={form.state} onChange={set('state')} required />
             <Field label="Pincode" value={form.pincode} onChange={set('pincode')} required />

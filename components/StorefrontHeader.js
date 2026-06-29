@@ -12,7 +12,7 @@ export default function StorefrontHeader() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <TreePine className="text-brand-600 dark:text-brand-300" size={22} />
-          <span className="text-lg font-semibold text-gray-900 dark:text-gray-50">Devi hardware and plywoods</span>
+          <span className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-50">Devi hardware and plywoods</span>
         </Link>
         <div className="flex items-center gap-3">
           <button
