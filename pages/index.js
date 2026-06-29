@@ -41,7 +41,7 @@ export default function Home() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-6">
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-6 px-6 sm:mx-0 sm:px-0 sm:flex-wrap">
             {CATEGORIES.map((c) => (
               <button
                 key={c}

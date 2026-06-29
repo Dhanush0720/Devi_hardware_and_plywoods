@@ -25,10 +25,10 @@ export default function ProductCard({ product }) {
       <div className="p-4">
         <p className="text-xs text-gray-400 uppercase tracking-wide">{product.category}</p>
         <Link href={`/product/${product._id}`}>
-          <h3 className="font-medium text-gray-900 dark:text-gray-50 mt-1 line-clamp-1">{product.name}</h3>
+          <h3 className="font-medium text-sm sm:text-base text-gray-900 dark:text-gray-50 mt-1 line-clamp-2 h-10 leading-tight">{product.name}</h3>
         </Link>
         <div className="flex items-center justify-between mt-3">
-          <span className="text-lg font-semibold text-brand-700 dark:text-brand-300">
+          <span className="text-base sm:text-lg font-semibold text-brand-700 dark:text-brand-300">
             ₹{product.price.toLocaleString('en-IN')}
           </span>
           {outOfStock ? (
@@ -36,7 +36,7 @@ export default function ProductCard({ product }) {
           ) : (
             <button
               onClick={() => addItem(product, 1)}
-              className="flex items-center gap-1 text-sm bg-brand-600 text-white px-3 py-1.5 rounded-lg hover:bg-brand-700"
+              className="flex items-center gap-1 text-xs sm:text-sm bg-brand-600 text-white px-2.5 py-1.5 sm:px-3 rounded-lg hover:bg-brand-700 transition-colors shrink-0"
             >
               <Plus size={14} /> Add
             </button>

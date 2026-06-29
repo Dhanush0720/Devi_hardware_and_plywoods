@@ -18,3 +18,12 @@ html, body {
   background: #bd9a66;
   border-radius: 4px;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
